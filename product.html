@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Pop - Opus3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="product.css">
+</head>
+<body>
+
+    <!-- Countdown Topbar -->
+    <div class="topbar-countdown">
+        <div class="container countdown-content">
+            <span class="countdown-label">Prossimo Drop Esclusivo tra:</span>
+            <div id="countdown" class="countdown-timer">
+                <div class="time-block"><span id="days">00</span><small>Giorni</small></div>
+                <div class="separator">:</div>
+                <div class="time-block"><span id="hours">00</span><small>Ore</small></div>
+                <div class="separator">:</div>
+                <div class="time-block"><span id="minutes">00</span><small>Min</small></div>
+                <div class="separator">:</div>
+                <div class="time-block"><span id="seconds">00</span><small>Sec</small></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">Opus3D</div>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#drop">Drop</a></li>
+                <li><a href="#">Custom</a></li>
+            </ul>
+            <a href="#" class="btn-secondary nav-btn">Carrello (<span id="cart-count">0</span>)</a>
+        </div>
+    </nav>
+
+    <!-- Product Detail Section -->
+    <section class="product-detail-section">
+        <div class="container">
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a> / <a href="index.html#drop">Drop</a> / <span id="breadcrumb-current">Loading...</span>
+            </div>
+
+            <div class="product-container" id="product-container">
+                <!-- Content loaded via JS -->
+                <div class="loading-spinner">Caricamento prodotto...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cross Selling Section -->
+    <section class="related-products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Potrebbero Piacerti Anche</h2>
+                <p>Completa la tua collezione con questi modelli.</p>
+            </div>
+            <div class="products-grid" id="related-products-grid">
+                <!-- Content loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="logo">Opus3D</div>
+                <p>Figure personalizzate che raccontano la tua storia. Design unico, qualità premium.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                    <a href="#" aria-label="Facebook"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                    <a href="#" aria-label="Twitter"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">Nuovi Arrivi</a></li>
+                    <li><a href="#">Best Sellers</a></li>
+                    <li><a href="#">Customizza</a></li>
+                    <li><a href="#">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Supporto</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Spedizioni</a></li>
+                    <li><a href="#">Resi</a></li>
+                    <li><a href="#">Contattaci</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legale</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Termini & Condizioni</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2023 Opus3D. Tutti i diritti riservati. Made with imagination.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown Timer Logic (Shared)
+        const dropDate = new Date("December 16, 2025 00:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = dropDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            const elDays = document.getElementById("days");
+            if(elDays) {
+                elDays.innerText = days < 10 ? "0" + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+            }
+        }, 1000);
+
+        // Product Data
+        const productData = {
+            id: "p001",
+            name: "Hero Pop - Limited Edition",
+            price: 29.99,
+            description: "Il classico eroe in versione super deformed, pronto a salvare la tua scrivania. Realizzato in PLA premium biodegradabile con finitura liscia post-processata a mano. Ogni pezzo è unico e numerato.",
+            stock: 12,
+            images: [
+                "https://placehold.co/600x600/f0f0f0/5FB7BB?text=Hero+Front",
+                "https://placehold.co/600x600/f0f0f0/5FB7BB?text=Hero+Side",
+                "https://placehold.co/600x600/f0f0f0/5FB7BB?text=Hero+Back",
+                "https://placehold.co/600x600/f0f0f0/5FB7BB?text=Hero+Detail"
+            ],
+            specs: {
+                "Altezza": "12 cm",
+                "Materiale": "PLA Premium",
+                "Peso": "150g",
+                "Edizione": "1/500",
+                "Finitura": "Matte + Glossy Details"
+            }
+        };
+
+        const relatedProducts = [
+            {
+                id: "p002",
+                name: "Villain Pop",
+                price: 29.99,
+                image: "https://placehold.co/400x400/f0f0f0/5FB7BB?text=Villain+Pop",
+                tag: "Best Match"
+            },
+            {
+                id: "p003",
+                name: "Pet Pop",
+                price: 24.99,
+                image: "https://placehold.co/400x400/f0f0f0/5FB7BB?text=Pet+Pop",
+                tag: "Trending"
+            },
+            {
+                id: "p004",
+                name: "Mecha Pop",
+                price: 34.99,
+                image: "https://placehold.co/400x400/f0f0f0/5FB7BB?text=Mecha+Pop",
+                tag: "New"
+            }
+        ];
+
+        // Render Product
+        function renderProduct() {
+            const container = document.getElementById('product-container');
+            const breadcrumbName = document.getElementById('breadcrumb-current');
+            
+            breadcrumbName.innerText = productData.name;
+            document.title = `${productData.name} - Opus3D`;
+
+            // Stock status logic
+            let stockHtml = '';
+            if (productData.stock < 5) {
+                stockHtml = `<span class="stock-indicator low">Ultimi ${productData.stock} pezzi!</span>`;
+            } else {
+                stockHtml = `<span class="stock-indicator">Disponibilità limitata: ${productData.stock} rimasti</span>`;
+            }
+
+            // Specs HTML
+            let specsHtml = '<div class="specs-list">';
+            for (const [key, value] of Object.entries(productData.specs)) {
+                specsHtml += `
+                    <div class="spec-item">
+                        <span class="spec-label">${key}</span>
+                        <span>${value}</span>
+                    </div>
+                `;
+            }
+            specsHtml += '</div>';
+
+            // Thumbnails HTML
+            let thumbnailsHtml = '';
+            productData.images.forEach((img, index) => {
+                thumbnailsHtml += `<img src="${img}" class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)" alt="Thumbnail">`;
+            });
+
+            const html = `
+                <div class="gallery-wrapper">
+                    <div class="main-image">
+                        <img id="main-product-img" src="${productData.images[0]}" alt="${productData.name}">
+                    </div>
+                    <div class="thumbnail-row">
+                        ${thumbnailsHtml}
+                    </div>
+                </div>
+                <div class="product-details">
+                    <h1>${productData.name}</h1>
+                    ${stockHtml}
+                    <div class="price">€${productData.price.toFixed(2)}</div>
+                    <p class="description">${productData.description}</p>
+                    
+                    ${specsHtml}
+
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                            <input type="number" id="quantity" class="quantity-input" value="1" min="1" max="${productData.stock}" readonly>
+                            <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                        </div>
+                        <button class="btn-primary full-width" onclick="addToCart()">Aggiungi al Carrello</button>
+                    </div>
+
+                    <div class="product-extras">
+                        <div class="extra-item">
+                            <svg class="extra-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                            <div class="extra-text">
+                                <h4>Spedizione Rapida</h4>
+                                <p>Consegna in 2-4 giorni lavorativi</p>
+                            </div>
+                        </div>
+                        <div class="extra-item">
+                            <svg class="extra-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            <div class="extra-text">
+                                <h4>Pagamenti Sicuri</h4>
+                                <p>SSL 100% Sicuro (Visa, MC, PayPal)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Render Related Products
+        function renderRelated() {
+            const grid = document.getElementById('related-products-grid');
+            let html = '';
+            
+            relatedProducts.forEach(prod => {
+                html += `
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="${prod.image}" alt="${prod.name}">
+                            ${prod.tag ? `<span class="badge">${prod.tag}</span>` : ''}
+                        </div>
+                        <div class="product-info">
+                            <h3>${prod.name}</h3>
+                            <p class="price-small">€${prod.price.toFixed(2)}</p>
+                            <button class="btn-mini">Vedi Dettagli</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = html;
+        }
+
+        // Interactivity Functions
+        function changeImage(src, thumb) {
+            document.getElementById('main-product-img').src = src;
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+        }
+
+        function updateQuantity(change) {
+            const input = document.getElementById('quantity');
+            let newVal = parseInt(input.value) + change;
+            if (newVal >= 1 && newVal <= productData.stock) {
+                input.value = newVal;
+            }
+        }
+
+        function addToCart() {
+            const qty = parseInt(document.getElementById('quantity').value);
+            const cartCount = document.getElementById('cart-count');
+            let currentCount = parseInt(cartCount.innerText);
+            
+            // Simple animation
+            const btn = document.querySelector('.product-actions .btn-primary');
+            const originalText = btn.innerText;
+            
+            btn.innerText = 'Aggiunto!';
+            btn.style.backgroundColor = '#4ca0a4';
+            cartCount.innerText = currentCount + qty;
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = '';
+            }, 1500);
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            renderProduct();
+            renderRelated();
+        });
+    </script>
+</body>
+</html>
+

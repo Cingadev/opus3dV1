@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Tuo Carrello - Opus3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+
+    <!-- Countdown Topbar -->
+    <div class="topbar-countdown">
+        <div class="container countdown-content">
+            <span class="countdown-label">Prossimo Drop Esclusivo tra:</span>
+            <div id="countdown" class="countdown-timer">
+                <div class="time-block"><span id="days">00</span><small>Giorni</small></div>
+                <div class="separator">:</div>
+                <div class="time-block"><span id="hours">00</span><small>Ore</small></div>
+                <div class="separator">:</div>
+                <div class="time-block"><span id="minutes">00</span><small>Min</small></div>
+                <div class="separator">:</div>
+                <div class="time-block"><span id="seconds">00</span><small>Sec</small></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">Opus3D</div>
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#drop">Drop</a></li>
+                <li><a href="#">Custom</a></li>
+            </ul>
+            <a href="#" class="btn-secondary nav-btn active">Carrello (<span id="nav-cart-count">0</span>)</a>
+        </div>
+    </nav>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <div class="container">
+            <h1 class="page-title">Il Tuo Carrello</h1>
+            
+            <div class="cart-layout" id="cart-container">
+                <!-- Loaded via JS -->
+                <div class="loading-spinner">Caricamento carrello...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cross Selling Section -->
+    <section class="cross-sell-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Completa il Look</h2>
+                <p>Prodotti che altri utenti hanno acquistato insieme.</p>
+            </div>
+            <div class="products-grid" id="cross-sell-grid">
+                <!-- Loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="logo">Opus3D</div>
+                <p>Figure personalizzate che raccontano la tua storia. Design unico, qualità premium.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                    <a href="#" aria-label="Facebook"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                    <a href="#" aria-label="Twitter"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">Nuovi Arrivi</a></li>
+                    <li><a href="#">Best Sellers</a></li>
+                    <li><a href="#">Customizza</a></li>
+                    <li><a href="#">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Supporto</h4>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Spedizioni</a></li>
+                    <li><a href="#">Resi</a></li>
+                    <li><a href="#">Contattaci</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legale</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Termini & Condizioni</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2023 Opus3D. Tutti i diritti riservati. Made with imagination.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Countdown Logic (Shared)
+        const dropDate = new Date("December 16, 2025 00:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = dropDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            const elDays = document.getElementById("days");
+            if(elDays) {
+                elDays.innerText = days < 10 ? "0" + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+            }
+        }, 1000);
+
+        // Cart Data (Simulation)
+        let cartData = {
+            items: [
+                {
+                    id: "p001",
+                    name: "Hero Pop - Limited Edition",
+                    price: 29.99,
+                    quantity: 1,
+                    image: "https://placehold.co/150x150/f0f0f0/5FB7BB?text=Hero",
+                    variant: "Standard"
+                },
+                {
+                    id: "p002",
+                    name: "Villain Pop",
+                    price: 29.99,
+                    quantity: 2,
+                    image: "https://placehold.co/150x150/f0f0f0/5FB7BB?text=Villain",
+                    variant: "Matte Finish"
+                }
+            ],
+            subtotal: 89.97,
+            shipping: 4.99,
+            total: 94.96
+        };
+
+        const crossSellProducts = [
+            {
+                id: "p005",
+                name: "Display Case",
+                price: 14.99,
+                image: "https://placehold.co/300x300/f0f0f0/5FB7BB?text=Case",
+                tag: "Accessory"
+            },
+            {
+                id: "p006",
+                name: "Stickers Pack",
+                price: 5.99,
+                image: "https://placehold.co/300x300/f0f0f0/5FB7BB?text=Stickers",
+                tag: "Fun"
+            },
+            {
+                id: "p003",
+                name: "Pet Pop",
+                price: 24.99,
+                image: "https://placehold.co/300x300/f0f0f0/5FB7BB?text=Pet+Pop",
+                tag: "Popular"
+            }
+        ];
+
+        let discountApplied = 0;
+
+        // Render Cart
+        function renderCart() {
+            const container = document.getElementById('cart-container');
+            const navCount = document.getElementById('nav-cart-count');
+            
+            // Calculate totals
+            let subtotal = 0;
+            let count = 0;
+            
+            cartData.items.forEach(item => {
+                subtotal += item.price * item.quantity;
+                count += item.quantity;
+            });
+            
+            navCount.innerText = count;
+            
+            if (cartData.items.length === 0) {
+                // ... (empty cart html remains same)
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <h3>Il tuo carrello è vuoto</h3>
+                        <p>Non hai ancora aggiunto nessun prodotto.</p>
+                        <a href="index.html#drop" class="btn-primary">Torna allo Shop</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Calculate Final Total
+            let discountAmount = 0;
+            if(discountApplied > 0) {
+                discountAmount = subtotal * discountApplied;
+            }
+            const total = subtotal + cartData.shipping - discountAmount;
+
+            let itemsHtml = '<div class="cart-items">';
+            cartData.items.forEach((item, index) => {
+                itemsHtml += `
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="item-details">
+                            <h3>${item.name}</h3>
+                            <p class="variant">${item.variant}</p>
+                            <div class="item-price">€${item.price.toFixed(2)}</div>
+                        </div>
+                        <div class="item-actions">
+                            <div class="qty-control">
+                                <button onclick="updateCartQty(${index}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateCartQty(${index}, 1)">+</button>
+                            </div>
+                            <button class="remove-btn" onclick="removeItem(${index})">Rimuovi</button>
+                        </div>
+                        <div class="item-total">
+                            €${(item.price * item.quantity).toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            });
+            itemsHtml += '</div>';
+
+            // Discount Row HTML
+            let discountRowHtml = '';
+            if (discountApplied > 0) {
+                discountRowHtml = `
+                    <div class="summary-row discount">
+                        <span>Sconto (${discountApplied * 100}%)</span>
+                        <span>-€${discountAmount.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            const summaryHtml = `
+                <div class="cart-summary">
+                    <h3>Riepilogo Ordine</h3>
+                    <div class="summary-row">
+                        <span>Sottototale</span>
+                        <span>€${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Spedizione</span>
+                        <span>€${cartData.shipping.toFixed(2)}</span>
+                    </div>
+                    ${discountRowHtml}
+                    
+                    <div class="discount-code-section">
+                        <div class="discount-input-group">
+                            <input type="text" id="discount-input" placeholder="Codice Sconto (es. OPUS20)">
+                            <button class="btn-secondary small" onclick="applyDiscount()">Applica</button>
+                        </div>
+                        <p id="discount-message" class="discount-message"></p>
+                    </div>
+
+                    <div class="summary-divider"></div>
+                    <div class="summary-row total">
+                        <span>Totale</span>
+                        <span id="cart-total">€${total.toFixed(2)}</span>
+                    </div>
+                    <button class="btn-primary full-width checkout-btn">Procedi al Checkout</button>
+                    
+                    <div class="secure-checkout">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <span>Checkout Sicuro SSL</span>
+                    </div>
+                    <div class="payment-methods">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" height="20">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="Mastercard" height="20">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" height="20">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Pay" height="20">
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = itemsHtml + summaryHtml;
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discount-input').value.trim().toUpperCase();
+            const msg = document.getElementById('discount-message');
+            
+            if (code === 'OPUS20') {
+                discountApplied = 0.20; // 20%
+                renderCart();
+                // We need to re-find the message element after re-render
+                setTimeout(() => {
+                    const newMsg = document.getElementById('discount-message');
+                    newMsg.innerText = "Codice applicato con successo!";
+                    newMsg.className = "discount-message success";
+                }, 50);
+            } else {
+                msg.innerText = "Codice non valido";
+                msg.className = "discount-message error";
+            }
+        }
+
+        // Render Cross Sell
+        function renderCrossSell() {
+            const grid = document.getElementById('cross-sell-grid');
+            let html = '';
+            
+            crossSellProducts.forEach(prod => {
+                html += `
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="${prod.image}" alt="${prod.name}">
+                            ${prod.tag ? `<span class="badge">${prod.tag}</span>` : ''}
+                        </div>
+                        <div class="product-info">
+                            <h3>${prod.name}</h3>
+                            <p class="price-small">€${prod.price.toFixed(2)}</p>
+                            <button class="btn-mini" onclick="addCrossSell('${prod.name}')">Aggiungi</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = html;
+        }
+
+        // Cart Actions
+        function updateCartQty(index, change) {
+            const item = cartData.items[index];
+            const newQty = item.quantity + change;
+            
+            if (newQty > 0) {
+                item.quantity = newQty;
+            } else {
+                // If 0, confirm removal
+                if(confirm("Rimuovere questo articolo dal carrello?")) {
+                    cartData.items.splice(index, 1);
+                }
+            }
+            renderCart();
+        }
+
+        function removeItem(index) {
+            cartData.items.splice(index, 1);
+            renderCart();
+        }
+        
+        function addCrossSell(name) {
+            alert(`Hai aggiunto ${name} al carrello! (Simulazione)`);
+            // Here you would typically add to the cartData array
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            renderCart();
+            renderCrossSell();
+        });
+    </script>
+</body>
+</html>
+

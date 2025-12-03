@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Opus3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="checkout.css">
+    <!-- Stripe JS -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+    <!-- Simple Navbar for Checkout -->
+    <nav class="navbar checkout-nav">
+        <div class="container">
+            <div class="logo">Opus3D</div>
+            <div class="secure-badge">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                Checkout Sicuro
+            </div>
+        </div>
+    </nav>
+
+    <div class="container checkout-container">
+        <div class="checkout-layout">
+            
+            <!-- Left Column: Forms -->
+            <div class="checkout-forms">
+                <!-- Customer Info -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <div class="step-number">1</div>
+                        <h2>Informazioni Cliente</h2>
+                    </div>
+                    <form id="customer-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="latua@email.com" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Nome</label>
+                                <input type="text" id="name" placeholder="Mario" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="surname">Cognome</label>
+                                <input type="text" id="surname" placeholder="Rossi" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <div class="step-number">2</div>
+                        <h2>Indirizzo di Spedizione</h2>
+                    </div>
+                    <form id="shipping-form">
+                        <div class="form-group">
+                            <label for="address">Indirizzo</label>
+                            <input type="text" id="address" placeholder="Via Roma 1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apartment">Appartamento, interno, ecc. (opzionale)</label>
+                            <input type="text" id="apartment" placeholder="">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">Città</label>
+                                <input type="text" id="city" placeholder="Milano" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip">CAP</label>
+                                <input type="text" id="zip" placeholder="20100" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Paese</label>
+                                <select id="country" required>
+                                    <option value="IT">Italia</option>
+                                    <option value="FR">Francia</option>
+                                    <option value="DE">Germania</option>
+                                    <option value="ES">Spagna</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefono</label>
+                            <input type="tel" id="phone" placeholder="+39 333 1234567" required>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Payment -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <div class="step-number">3</div>
+                        <h2>Pagamento</h2>
+                    </div>
+                    <div class="payment-container">
+                        <p class="payment-info">Tutte le transazioni sono sicure e crittografate.</p>
+                        
+                        <!-- Stripe Elements Placeholder -->
+                        <div id="payment-element">
+                            <!-- Simulated Stripe Element UI -->
+                            <div class="stripe-mock-input">
+                                <label>Numero Carta</label>
+                                <div class="input-icon-wrapper">
+                                    <svg class="credit-card-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                    <input type="text" placeholder="4242 4242 4242 4242" class="stripe-fake-field">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="stripe-mock-input">
+                                    <label>Scadenza</label>
+                                    <input type="text" placeholder="MM / AA" class="stripe-fake-field">
+                                </div>
+                                <div class="stripe-mock-input">
+                                    <label>CVC</label>
+                                    <input type="text" placeholder="123" class="stripe-fake-field">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="payment-logos">
+                            <span class="powered-by">Powered by <strong>Stripe</strong></span>
+                            <div class="logos-group">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" height="15">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/MasterCard_Logo.svg" alt="Mastercard" height="15">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="submit-order" class="btn-primary full-width large-btn" onclick="processPayment()">Paga Ora</button>
+            </div>
+
+            <!-- Right Column: Order Summary -->
+            <div class="checkout-summary-sidebar">
+                <div class="order-summary-card">
+                    <h3>Riepilogo Ordine</h3>
+                    
+                    <div class="summary-items" id="summary-items">
+                        <!-- Loaded via JS -->
+                        <div class="loading-spinner">Caricamento...</div>
+                    </div>
+
+                    <div class="summary-divider"></div>
+
+                    <div class="summary-totals">
+                        <div class="summary-row">
+                            <span>Sottototale</span>
+                            <span id="summary-subtotal">€0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Spedizione</span>
+                            <span id="summary-shipping">€0.00</span>
+                        </div>
+                        <div class="summary-row discount hidden" id="summary-discount-row">
+                            <span>Sconto</span>
+                            <span id="summary-discount">-€0.00</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-row total">
+                            <span>Totale</span>
+                            <span id="summary-total">€0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="logo">Opus3D</div>
+                <p>&copy; 2023 Opus3D. Tutti i diritti riservati.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Legale</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Termini & Condizioni</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simulate Order Data (In a real app, this would come from localStorage or API)
+        const orderData = {
+            items: [
+                {
+                    name: "Hero Pop - Limited Edition",
+                    price: 29.99,
+                    quantity: 1,
+                    image: "https://placehold.co/100x100/f0f0f0/5FB7BB?text=Hero"
+                },
+                {
+                    name: "Villain Pop",
+                    price: 29.99,
+                    quantity: 2,
+                    image: "https://placehold.co/100x100/f0f0f0/5FB7BB?text=Villain"
+                }
+            ],
+            subtotal: 89.97,
+            shipping: 4.99,
+            discount: 0 // Could check URL params or localStorage for applied discount
+        };
+
+        function renderSummary() {
+            const itemsContainer = document.getElementById('summary-items');
+            let html = '';
+
+            orderData.items.forEach(item => {
+                html += `
+                    <div class="summary-item">
+                        <div class="summary-img-wrapper">
+                            <img src="${item.image}" alt="${item.name}">
+                            <span class="summary-qty">${item.quantity}</span>
+                        </div>
+                        <div class="summary-info">
+                            <h4>${item.name}</h4>
+                            <p>€${item.price.toFixed(2)}</p>
+                        </div>
+                        <div class="summary-price">
+                            €${(item.price * item.quantity).toFixed(2)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            itemsContainer.innerHTML = html;
+
+            document.getElementById('summary-subtotal').innerText = '€' + orderData.subtotal.toFixed(2);
+            document.getElementById('summary-shipping').innerText = '€' + orderData.shipping.toFixed(2);
+            
+            const total = orderData.subtotal + orderData.shipping - orderData.discount;
+            document.getElementById('summary-total').innerText = '€' + total.toFixed(2);
+        }
+
+        function processPayment() {
+            const btn = document.getElementById('submit-order');
+            const originalText = btn.innerText;
+            
+            // Basic validation
+            const required = document.querySelectorAll('input[required], select[required]');
+            let valid = true;
+            required.forEach(field => {
+                if(!field.value) {
+                    field.style.borderColor = 'red';
+                    valid = false;
+                } else {
+                    field.style.borderColor = '#eee';
+                }
+            });
+
+            if(!valid) {
+                alert("Per favore compila tutti i campi obbligatori.");
+                return;
+            }
+
+            // Simulate Processing
+            btn.innerText = "Elaborazione...";
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+
+            setTimeout(() => {
+                btn.innerText = "Pagamento Riuscito!";
+                btn.style.backgroundColor = "#27ae60";
+                
+                setTimeout(() => {
+                    alert("Grazie per il tuo ordine! Riceverai una mail di conferma a breve.");
+                    window.location.href = "index.html";
+                }, 1000);
+            }, 2000);
+        }
+
+        window.addEventListener('load', renderSummary);
+    </script>
+
+</body>
+</html>
+
